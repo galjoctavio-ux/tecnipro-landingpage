@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TecniPRO — Cotizaciones para Técnicos</title>
+  <meta name="description" content="TecniPRO: la app para técnicos independientes. Crea cotizaciones en PDF, gestiona clientes y servicios desde tu celular. 100% offline." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand: #1A73E8;
+      --brand-dark: #1558B0;
+      --accent: #34A853;
+      --dark: #111827;
+      --mid: #374151;
+      --muted: #6B7280;
+      --light: #F9FAFB;
+      --border: #E5E7EB;
+      --white: #FFFFFF;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--dark); background: var(--white); line-height: 1.6; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-brand { font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--brand); letter-spacing: -0.5px; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--mid); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--brand); }
+    .nav-cta {
+      background: var(--brand); color: var(--white);
+      padding: 9px 20px; border-radius: 8px;
+      text-decoration: none; font-size: 0.9rem; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--brand-dark); }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 50%, #EFF6FF 100%);
+      padding: 96px 24px 80px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 100px; padding: 6px 14px;
+      font-size: 0.8rem; font-weight: 600; color: var(--brand);
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      font-weight: 800; line-height: 1.1;
+      color: var(--dark); margin-bottom: 20px;
+      max-width: 700px; margin-left: auto; margin-right: auto;
+    }
+    .hero h1 span { color: var(--brand); }
+    .hero p { font-size: 1.1rem; color: var(--muted); max-width: 520px; margin: 0 auto 36px; }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--brand); color: var(--white);
+      padding: 14px 28px; border-radius: var(--radius);
+      text-decoration: none; font-weight: 700; font-size: 1rem;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--brand-dark); transform: translateY(-1px); }
+    .btn-secondary {
+      background: var(--white); color: var(--brand);
+      border: 2px solid var(--brand);
+      padding: 14px 28px; border-radius: var(--radius);
+      text-decoration: none; font-weight: 700; font-size: 1rem;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: var(--brand); color: var(--white); }
+    .hero-note { font-size: 0.8rem; color: var(--muted); margin-top: 16px; }
+
+    /* FEATURES */
+    section { padding: 80px 24px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label { font-size: 0.8rem; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800;
+      color: var(--dark); margin-bottom: 12px;
+    }
+    .section-sub { color: var(--muted); font-size: 1rem; max-width: 540px; }
+
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 48px; }
+    .feature-card {
+      background: var(--light); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .feature-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .feature-icon { font-size: 2rem; margin-bottom: 14px; }
+    .feature-card h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+    .feature-card p { font-size: 0.9rem; color: var(--muted); }
+
+    /* FOR WHO */
+    .forwho { background: var(--dark); }
+    .forwho .section-title, .forwho .section-label { color: var(--white); }
+    .forwho .section-label { color: #93C5FD; }
+    .forwho .section-sub { color: #9CA3AF; }
+    .professions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .profession-tag {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 100px; padding: 10px 20px;
+      font-size: 0.9rem; color: var(--white); font-weight: 500;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    /* HOW IT WORKS */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; margin-top: 48px; }
+    .step { text-align: center; }
+    .step-number {
+      width: 48px; height: 48px;
+      background: var(--brand); color: var(--white);
+      border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .step h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+    .step p { font-size: 0.88rem; color: var(--muted); }
+
+    /* PRICING */
+    .pricing { background: var(--light); }
+    .pricing-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 48px; max-width: 720px; margin-left: auto; margin-right: auto; }
+    .pricing-card {
+      background: var(--white); border: 2px solid var(--border);
+      border-radius: var(--radius); padding: 32px;
+    }
+    .pricing-card.featured { border-color: var(--brand); position: relative; }
+    .pricing-badge {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: var(--brand); color: var(--white);
+      font-size: 0.75rem; font-weight: 700; padding: 4px 14px; border-radius: 100px;
+    }
+    .pricing-card .plan-name { font-size: 0.85rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .pricing-card .plan-price { font-family: 'Barlow Condensed', sans-serif; font-size: 3rem; font-weight: 800; color: var(--dark); line-height: 1; margin-bottom: 4px; }
+    .pricing-card .plan-price span { font-size: 1.2rem; vertical-align: top; margin-top: 8px; display: inline-block; }
+    .pricing-card .plan-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 24px; }
+    .pricing-card ul { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .pricing-card li { font-size: 0.9rem; display: flex; align-items: flex-start; gap: 8px; }
+    .pricing-card li::before { content: "✓"; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .pricing-card li.no::before { content: "✕"; color: var(--muted); }
+
+    /* CTA FINAL */
+    .cta-section { background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%); text-align: center; }
+    .cta-section h2 { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; color: var(--white); margin-bottom: 12px; }
+    .cta-section p { color: rgba(255,255,255,0.8); margin-bottom: 32px; font-size: 1rem; }
+    .btn-white { background: var(--white); color: var(--brand); padding: 14px 32px; border-radius: var(--radius); text-decoration: none; font-weight: 700; font-size: 1rem; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.15s; }
+    .btn-white:hover { transform: translateY(-2px); }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark); color: #9CA3AF;
+      padding: 40px 24px; text-align: center;
+    }
+    .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .footer-links a { color: #9CA3AF; text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+    footer p { font-size: 0.8rem; }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      section { padding: 60px 16px; }
+      .hero { padding: 72px 16px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-brand">TecniPRO</span>
+    <ul class="nav-links">
+      <li><a href="#features">Funciones</a></li>
+      <li><a href="#howto">Cómo funciona</a></li>
+      <li><a href="#pricing">Precio</a></li>
+    </ul>
+    <a class="nav-cta" href="https://play.google.com/store/apps/details?id=com.tesivil.tecnipro" target="_blank" rel="noopener">
+      Descargar gratis
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      100% Offline · Sin suscripciones
+    </div>
+    <h1>Crea cotizaciones<br /><span>profesionales en PDF</span><br />desde tu celular</h1>
+    <p>La app diseñada para técnicos independientes: plomeros, electricistas, climatización y más. Gestiona clientes, cotizaciones y servicios — sin internet.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.tesivil.tecnipro" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76a2 2 0 0 0 2.8.2l12.46-7.2-3.5-3.5-11.76 10.5zm16.1-10.5L5.96 5.06a2 2 0 0 0-2.78.2L3 5.5v13l.18.24a2 2 0 0 0 2.78.2l13.32-7.68zm1.5-.86-3.06-1.78-3.78 3.76 3.76 3.76 3.1-1.8a2 2 0 0 0 0-3.94zM5.98 1.04L18.44 8.2l-3.5 3.5L2.98 4.44a2 2 0 0 1 3-3.4z"/></svg>
+        Google Play
+      </a>
+      <a class="btn-secondary" href="#features">Ver funciones</a>
+    </div>
+    <p class="hero-note">Gratis · Android · Sin internet requerido</p>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="container">
+      <p class="section-label">Funcionalidades</p>
+      <h2 class="section-title">Todo lo que necesitas<br />en una sola app</h2>
+      <p class="section-sub">Diseñada para trabajar con una sola mano, sin perder el tiempo en menus complicados.</p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📄</div>
+          <h3>Cotizaciones en PDF</h3>
+          <p>Genera cotizaciones profesionales con tu logo, datos fiscales e ítems detallados. Comparte directo por WhatsApp.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👥</div>
+          <h3>Gestión de Clientes</h3>
+          <p>Guarda teléfonos, direcciones, notas y todo el historial de servicios y cotizaciones por cliente.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔧</div>
+          <h3>Registro de Servicios</h3>
+          <p>Documenta cada servicio con costo, estado y vinculación a cliente o cotización. Nunca pierdas un trabajo.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏢</div>
+          <h3>Tu Empresa</h3>
+          <p>Configura tu logo y datos fiscales una sola vez. Aparecen automáticamente en cada cotización generada.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Dashboard</h3>
+          <p>Resumen de clientes activos, cotizaciones pendientes y servicios del mes en una sola pantalla.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📶</div>
+          <h3>100% Offline</h3>
+          <p>Tus datos se guardan en el dispositivo. Funciona sin internet, sin cuentas, sin servidores.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOR WHO -->
+  <section class="forwho">
+    <div class="container">
+      <p class="section-label">¿Para quién es?</p>
+      <h2 class="section-title">Hecha para el técnico independiente</h2>
+      <p class="section-sub">Si trabajas por tu cuenta y quieres dar una imagen más profesional a tus clientes, esta app es para ti.</p>
+      <div class="professions">
+        <span class="profession-tag">🔧 Plomero</span>
+        <span class="profession-tag">⚡ Electricista</span>
+        <span class="profession-tag">❄️ Climatización</span>
+        <span class="profession-tag">🏗️ Albañilería</span>
+        <span class="profession-tag">🎨 Pintor</span>
+        <span class="profession-tag">🔩 Herrero / Soldador</span>
+        <span class="profession-tag">🪟 Carpintero</span>
+        <span class="profession-tag">📡 Instalador de equipos</span>
+        <span class="profession-tag">🛠️ Mantenimiento general</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="howto">
+    <div class="container">
+      <p class="section-label">Cómo funciona</p>
+      <h2 class="section-title">En 3 pasos tienes<br />tu cotización lista</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Agrega al cliente</h3>
+          <p>Registra nombre, teléfono y dirección. Tarda menos de 30 segundos.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Crea la cotización</h3>
+          <p>Añade los ítems con cantidad y precio. La app calcula el total automáticamente.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Genera y comparte el PDF</h3>
+          <p>Con un toque generas el PDF con tu logo y lo envías directo por WhatsApp.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <p class="section-label">Precio</p>
+      <h2 class="section-title">Sin suscripciones, sin sorpresas</h2>
+      <p class="section-sub">Descarga gratis y úsala siempre. Paga una sola vez si quieres quitarte los anuncios para siempre.</p>
+      <div class="pricing-cards">
+        <div class="pricing-card">
+          <p class="plan-name">Gratis</p>
+          <p class="plan-price"><span>$</span>0</p>
+          <p class="plan-desc">Para siempre, sin vencimientos.</p>
+          <ul>
+            <li>Clientes ilimitados</li>
+            <li>Cotizaciones ilimitadas</li>
+            <li>Generación de PDF</li>
+            <li>Registro de servicios</li>
+            <li class="no">Anuncios incluidos</li>
+          </ul>
+          <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.tesivil.tecnipro" target="_blank" rel="noopener" style="justify-content:center;width:100%;">Descargar gratis</a>
+        </div>
+        <div class="pricing-card featured">
+          <span class="pricing-badge">Recomendado</span>
+          <p class="plan-name">Sin Anuncios</p>
+          <p class="plan-price"><span>$</span>2<span style="font-size:1.4rem">.99</span></p>
+          <p class="plan-desc">Pago único, sin suscripción.</p>
+          <ul>
+            <li>Todo lo del plan gratis</li>
+            <li>Sin anuncios para siempre</li>
+            <li>Experiencia sin interrupciones</li>
+            <li>Un solo pago, nunca más</li>
+          </ul>
+          <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.tesivil.tecnipro" target="_blank" rel="noopener" style="justify-content:center;width:100%;">Obtener en Google Play</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Empieza hoy, gratis</h2>
+      <p>Únete a los técnicos que ya dan una imagen más profesional a sus clientes.</p>
+      <a class="btn-white" href="https://play.google.com/store/apps/details?id=com.tesivil.tecnipro" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76a2 2 0 0 0 2.8.2l12.46-7.2-3.5-3.5-11.76 10.5zm16.1-10.5L5.96 5.06a2 2 0 0 0-2.78.2L3 5.5v13l.18.24a2 2 0 0 0 2.78.2l13.32-7.68zm1.5-.86-3.06-1.78-3.78 3.76 3.76 3.76 3.1-1.8a2 2 0 0 0 0-3.94zM5.98 1.04L18.44 8.2l-3.5 3.5L2.98 4.44a2 2 0 0 1 3-3.4z"/></svg>
+        Descargar en Google Play
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-links">
+      <a href="privacy.html">Política de Privacidad</a>
+      <a href="terms.html">Términos y Condiciones</a>
+      <a href="mailto:soporte@tesivil.com">Contacto</a>
+    </div>
+    <p>&copy; 2025 TESIVIL. TecniPRO — com.tesivil.tecnipro</p>
+  </footer>
+
+</body>
+</html>
